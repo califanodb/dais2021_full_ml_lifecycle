@@ -28,15 +28,15 @@ display(telcoDF)
 
 # DBTITLE 1,Define featurization function
 from databricks.feature_store import feature_table
-import databricks.koalas as ks
+import pyspark.pandas as ps
 
 def compute_churn_features(data):
   
-  # Convert to koalas
-  data = data.to_koalas()
+    # Creating pandas-on-Spark DataFrame from Spark DataFrame. https://spark.apache.org/docs/latest/api/python/getting_started/quickstart_ps.html
+  data = data.pandas_api()
   
   # OHE
-  data = ks.get_dummies(data, 
+  data = ps.get_dummies(data, 
                         columns=['gender', 'partner', 'dependents',
                                  'phoneService', 'multipleLines', 'internetService',
                                  'onlineSecurity', 'onlineBackup', 'deviceProtection',
